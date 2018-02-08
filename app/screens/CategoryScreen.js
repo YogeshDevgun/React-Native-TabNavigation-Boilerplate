@@ -10,8 +10,11 @@ import {
 
 export default class CategoryScreen extends Component {
     static navigationOptions = {
-        title: 'Category'
-
+        title: 'Category',
+        headerTitleStyle: {
+            alignSelf: 'center',
+            textAlign: 'center',
+        },
     };
 
     render() {

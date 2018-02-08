@@ -10,38 +10,100 @@ import BookmarkScreen from "./screens/BookmarkScreen";
 import MoreScreen from "./screens/MoreScreen";
 import BuyScreen from "./screens/BuyScreen";
 
-const HomeStack = StackNavigator({
-    Home: { screen: CategoryScreen },
-});
 
 const BookmarkStack = StackNavigator({
     Bookmark: { screen: BookmarkScreen },
-});
+},
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#263077',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    });
 
 const SearchStack = StackNavigator({
     Search: { screen: SearchScreen },
-});
+},
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#263077',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    });
 
 const MoreStack = StackNavigator({
     More: {screen: MoreScreen},
-});
+},
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#263077',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    });
 
 const BuyStack = StackNavigator({
     Buy: {screen: BuyScreen},
-});
-
+},
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#263077',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            titleStyle: {
+                textAlign: 'center'
+            }
+        },
+    });
+const HomeStack = StackNavigator(
+    {
+        Home: {
+            screen: CategoryScreen,
+        },
+    },
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#263077',
+                textAlign: 'center'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    }
+);
 const RootStack = TabNavigator(
     {
         Home: { screen: HomeStack },
         Bookmark: { screen: BookmarkStack },
         Search: {screen: SearchStack},
         More: {screen: MoreStack},
-        Buy: {screen: BuyStack}
-
+        Buy: {screen: BuyStack},
     },
     {
-        navigationOptions: ({ navigation }) => ({
-            tabBarIcon: ({ focused, tintColor }) => {
+        navigationOptions: ({ navigation }) => (
+            {
+                 tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
                 let iconName;
                 if (routeName === 'Home') {
@@ -60,18 +122,12 @@ const RootStack = TabNavigator(
                 // icon component from react-native-vector-icons
                 return <Ionicons name={iconName} size={25} color={tintColor} />;
             },
-            headerStyle: {
-                backgroundColor: '#26C0EE',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
         }),
+
         tabBarOptions: {
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
-            backgroundColor: '#26C0EE',
+            backgroundColor: 'red',
         },
         tabBarComponent: TabBarBottom,
         tabBarPosition: 'bottom',
