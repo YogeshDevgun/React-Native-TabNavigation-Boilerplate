@@ -7,11 +7,11 @@ import {
     Button,
     ActivityIndicator
 } from 'react-native';
-import Row from './Row';
+import Row from '../components/CategoryList Components/Row';
 import demoData from '../../demoData'
-import Header from "./Header";
-import Footer from "./Footer";
-import SectionHeader from "./SectionHeader";
+import Header from "../components/CategoryList Components/Header";
+import Footer from "../components/CategoryList Components/Footer";
+import SectionHeader from "../components/CategoryList Components/SectionHeader";
 
 export default class CategoryScreen extends Component {
     constructor(props) {
@@ -105,8 +105,7 @@ export default class CategoryScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        marginTop: 20,
+        flex: 1
     },
     separator: {
         flex: 1,
