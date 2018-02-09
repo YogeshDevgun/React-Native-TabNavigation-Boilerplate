@@ -6,7 +6,7 @@ import {StyleSheet,
 
 export default class SearchScreen extends Component {
     static navigationOptions = {
-        title: 'Search'
+        title: 'SEARCH'
     };
     render(){
         return(

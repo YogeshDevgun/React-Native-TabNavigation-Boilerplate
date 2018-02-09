@@ -83,7 +83,7 @@ export default class CategoryScreen extends Component {
     }
 
     static navigationOptions = {
-        title: 'Category',
+        title: 'CATEGORY',
     };
 
     render() {

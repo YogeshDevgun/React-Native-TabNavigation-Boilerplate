@@ -21,6 +21,7 @@ const BookmarkStack = StackNavigator({
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
+                fontSize: 22,
                 fontWeight: 'bold',
                 alignSelf: 'center',
             },
@@ -37,6 +38,7 @@ const SearchStack = StackNavigator({
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
+                fontSize: 22,
                 fontWeight: 'bold',
                 alignSelf: 'center',
             },
@@ -53,6 +55,7 @@ const MoreStack = StackNavigator({
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
+                fontSize: 22,
                 fontWeight: 'bold',
                 alignSelf: 'center',
             },
@@ -69,6 +72,7 @@ const BuyStack = StackNavigator({
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
+                fontSize: 22,
                 fontWeight: 'bold',
                 alignSelf: 'center',
             }
@@ -87,6 +91,7 @@ const HomeStack = StackNavigator(
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
+                fontSize: 22,
                 fontWeight: 'bold',
                 alignSelf: 'center',
             },

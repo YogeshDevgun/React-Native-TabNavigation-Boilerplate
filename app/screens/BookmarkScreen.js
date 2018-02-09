@@ -8,7 +8,7 @@ export default class BookmarkScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
         return {
-            title: params ? params.otherParam : 'Bookmarks',
+            title: params ? params.otherParam : 'BOOKMARKS',
         }
     };
 

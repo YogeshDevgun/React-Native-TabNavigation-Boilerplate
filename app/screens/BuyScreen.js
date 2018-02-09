@@ -6,7 +6,7 @@ import {StyleSheet,
 
 export default class BuyScreen extends Component {
     static navigationOptions = {
-        title: 'Buy'
+        title: 'BUY'
     };
 
     render(){
