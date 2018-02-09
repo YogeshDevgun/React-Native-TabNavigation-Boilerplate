@@ -3,6 +3,7 @@ import {StyleSheet,
     View,
     Text,
     Button} from 'react-native';
+import SearchInput from "../components/Common/SearchInput";
 
 export default class BookmarkScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -15,9 +16,15 @@ export default class BookmarkScreen extends Component {
 
     render(){
         return(
-            <View>
-                <Text>Bookmark Screen</Text>
+            <View style={styles.container}>
+                <SearchInput/>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+})

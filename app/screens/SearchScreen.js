@@ -3,6 +3,7 @@ import {StyleSheet,
     View,
     Text,
     Button} from 'react-native';
+import SearchInput from "../components/Common/SearchInput";
 
 export default class SearchScreen extends Component {
     static navigationOptions = {
@@ -11,8 +12,16 @@ export default class SearchScreen extends Component {
     render(){
         return(
             <View>
-                <Text>Search Screen</Text>
+                <View style={styles.container}>
+                    <SearchInput/>
+                </View>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+})

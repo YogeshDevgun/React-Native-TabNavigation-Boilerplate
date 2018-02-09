@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Row from '../components/CategoryList Components/Row';
 import demoData from '../../demoData'
-import Header from "../components/CategoryList Components/Header";
+import Header from "../components/Common/SearchInput";
 import Footer from "../components/CategoryList Components/Footer";
 import SectionHeader from "../components/CategoryList Components/SectionHeader";
 

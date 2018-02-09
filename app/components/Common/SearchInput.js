@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 
-const Header = (props) => (
+const SearchInput = (props) => (
     <View style={styles.container}>
         <TextInput
             style={styles.input}
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Header;
+export default SearchInput;
