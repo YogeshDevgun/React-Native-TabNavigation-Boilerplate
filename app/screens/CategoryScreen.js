@@ -5,14 +5,17 @@ import {
     View,
     Text,
     Button,
+    FlatList,
     ActivityIndicator
 } from 'react-native';
+import  Data  from '../data';
 import Row from '../components/CategoryList Components/Row';
 import demoData from '../../demoData'
 import Header from "../components/Common/SearchInput";
 import Footer from "../components/CategoryList Components/Footer";
 import SectionHeader from "../components/CategoryList Components/SectionHeader";
 
+var service =  new  Data()
 export default class CategoryScreen extends Component {
     constructor(props) {
         super(props);
@@ -29,9 +32,34 @@ export default class CategoryScreen extends Component {
 
         const { dataBlob, sectionIds, rowIds } = this.formatData(demoData);
         this.state = {
-            dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds)
+            dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
+            records : []
         }
 
+        service.init()
+    }
+
+    async componentWillMount() {
+        service.createTable("aloha", [{
+            name: 'id',
+            dataType: 'integer',
+            isNotNull: true,
+            options: 'PRIMARY KEY AUTOINCREMENT'
+        }, {
+            name: 'name',
+            dataType: 'text'
+        }, {
+            name: 'gender',
+            dataType: 'text'
+        }])
+        service.insert("aloha", {
+            name: 'Selim',
+            gender: 'male'
+        })
+        var result = await service.select("aloha")
+        this.setState({
+            records: result
+        })
     }
 
     formatData(data) {
@@ -98,6 +126,11 @@ export default class CategoryScreen extends Component {
                    renderFooter={() => <Footer />}
                    renderSectionHeader={(sectionData) => <SectionHeader {...sectionData} />}
                />
+{/*               <FlatList
+                   data={this.state.records}
+                   renderItem={({ item }) => <Text>{item.name}</Text>}
+                   keyExtractor={(item) => item.id}
+               />*/}
            </View>
        )
     }
