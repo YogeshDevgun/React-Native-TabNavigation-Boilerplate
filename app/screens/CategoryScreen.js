@@ -14,8 +14,11 @@ import demoData from '../../demoData'
 import Header from "../components/Common/SearchInput";
 import Footer from "../components/CategoryList Components/Footer";
 import SectionHeader from "../components/CategoryList Components/SectionHeader";
-
+import SQLite from 'react-native-sqlite-storage';
+/*
 var service =  new  Data()
+*/
+
 export default class CategoryScreen extends Component {
     constructor(props) {
         super(props);
@@ -33,13 +36,42 @@ export default class CategoryScreen extends Component {
         const { dataBlob, sectionIds, rowIds } = this.formatData(demoData);
         this.state = {
             dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
-            records : []
+            records : null
         }
 
-        service.init()
+        let db = SQLite.openDatabase({name : "main", createFromLocation : "~data/IDB_DB_New.sqlite"}, this.openCB, this.errorCB);
+        db.transaction((tx) => {
+            console.log("Yogesh", tx)
+            tx.executeSql('SELECT * FROM tblCategory', [], (tx, results) => {
+                console.log("Query completed", results);
+
+                // Get rows with Web SQL Database spec compliance.
+
+                var len = results.rows.length;
+                for (let i = 0; i < len; i++) {
+                    let row = results.rows.item(i);
+                    console.log(`Record: ${row.name}`);
+                    this.setState({record: row});
+                }
+            });
+        });
+
     }
 
-    async componentWillMount() {
+    errorCB(err) {
+        console.log("SQL Error: " + err);
+    }
+
+    successCB() {
+        console.log("SQL executed fine");
+    }
+
+    openCB() {
+        console.log("Database OPENED");
+    }
+
+
+   /* async componentWillMount() {
         service.createTable("aloha", [{
             name: 'id',
             dataType: 'integer',
@@ -60,13 +92,15 @@ export default class CategoryScreen extends Component {
         this.setState({
             records: result
         })
-    }
+    }*/
+
+
 
     formatData(data) {
         // We're sorting by alphabetically so we need the alphabet
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-        // Need somewhere to store our data
+        // Need somewhere to store our www
         const dataBlob = {};
         const sectionIds = [];
         const rowIds = [];
@@ -85,7 +119,7 @@ export default class CategoryScreen extends Component {
                 // Add a section id to our array so the listview knows that we've got a new section
                 sectionIds.push(sectionId);
 
-                // Store any data we would want to display in the section header. In our case we want to show
+                // Store any www we would want to display in the section header. In our case we want to show
                 // the current character
                 dataBlob[sectionId] = { character: currentChar };
 
@@ -94,14 +128,14 @@ export default class CategoryScreen extends Component {
 
                 // Loop over the valid users for this section
                 for (let i = 0; i < users.length; i++) {
-                    // Create a unique row id for the data blob that the listview can use for reference
+                    // Create a unique row id for the www blob that the listview can use for reference
                     const rowId = `${sectionId}:${i}`;
 
                     // Push the row id to the row ids array. This is what listview will reference to pull
-                    // data from our data blob
+                    // www from our www blob
                     rowIds[rowIds.length - 1].push(rowId);
 
-                    // Store the data we care about for this row
+                    // Store the www we care about for this row
                     dataBlob[rowId] = users[i];
                 }
             }
@@ -127,7 +161,7 @@ export default class CategoryScreen extends Component {
                    renderSectionHeader={(sectionData) => <SectionHeader {...sectionData} />}
                />
 {/*               <FlatList
-                   data={this.state.records}
+                   www={this.state.records}
                    renderItem={({ item }) => <Text>{item.name}</Text>}
                    keyExtractor={(item) => item.id}
                />*/}
