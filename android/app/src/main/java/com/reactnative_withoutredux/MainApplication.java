@@ -25,8 +25,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
+                  new  SQLitePluginPackage (),
           new MainReactPackage(),
-            new  SQLitePluginPackage (),
             new VectorIconsPackage()
                   );
     }

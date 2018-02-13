@@ -9,6 +9,7 @@ import SearchScreen from "./screens/SearchScreen";
 import BookmarkScreen from "./screens/BookmarkScreen";
 import MoreScreen from "./screens/MoreScreen";
 import BuyScreen from "./screens/BuyScreen";
+import SubCategoryScreen from "./screens/SubCategoryScreen";
 
 
 const BookmarkStack = StackNavigator({
@@ -83,6 +84,7 @@ const HomeStack = StackNavigator(
         Home: {
             screen: CategoryScreen,
         },
+        SubCat: { screen: SubCategoryScreen}
     },
     {
         navigationOptions: {
@@ -98,6 +100,28 @@ const HomeStack = StackNavigator(
         },
     }
 );
+
+const SubCatStack = StackNavigator(
+    {
+        Home: {
+            screen: CategoryScreen,
+        },
+    },
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#263077',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontSize: 22,
+                fontWeight: 'bold',
+                alignSelf: 'center',
+            },
+        },
+    }
+);
+
 const RootStack = TabNavigator(
     {
         Home: { screen: HomeStack },

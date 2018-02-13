@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity  } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { List, ListItem } from "react-native-elements";
 
 const styles = StyleSheet.create({
     container: {
@@ -27,11 +28,21 @@ const styles = StyleSheet.create({
 });
 
 const Row = (props) => (
-        <View style={styles.container}>
+
+        <ListItem
+            roundAvatar
+            onPress={props.subscreen}
+            title={props.cat_name} />
+)
+
+    export default Row;
+{/*  <TouchableOpacity  style={styles.container} onPress={props.subscreen}>
             <View style={styles.containerLeft}>
+
                 <Image source={{ uri: props.picture.large}} style={styles.photo} />
+
                 <Text style={styles.text}>
-                    {`${props.name.first} ${props.name.last}`}
+                    {props.cat_name}
                 </Text>
             </View>
             <View>
@@ -47,8 +58,6 @@ const Row = (props) => (
                     overflowIconName="md-more"
                 />
             </View>
-        </View>
 
-);
 
-export default Row;
+        </TouchableOpacity >*/}

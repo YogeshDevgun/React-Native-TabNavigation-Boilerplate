@@ -8,140 +8,52 @@ import {
     FlatList,
     ActivityIndicator
 } from 'react-native';
-import  Data  from '../data';
 import Row from '../components/CategoryList Components/Row';
-import demoData from '../../demoData'
 import Header from "../components/Common/SearchInput";
 import Footer from "../components/CategoryList Components/Footer";
 import SectionHeader from "../components/CategoryList Components/SectionHeader";
-import SQLite from 'react-native-sqlite-storage';
-/*
-var service =  new  Data()
-*/
+
+let SQLite = require('react-native-sqlite-storage')
+var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB_New.sqlite"},this.openCB, this.errorCB);
 
 export default class CategoryScreen extends Component {
     constructor(props) {
         super(props);
 
-        const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
-        const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
 
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2,
-            sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
-            getSectionData,
-            getRowData,
-        });
-
-        const { dataBlob, sectionIds, rowIds } = this.formatData(demoData);
         this.state = {
-            dataSource: ds.cloneWithRowsAndSections(dataBlob, sectionIds, rowIds),
-            records : null
+            records : []
         }
 
-        let db = SQLite.openDatabase({name : "main", createFromLocation : "~data/IDB_DB_New.sqlite"}, this.openCB, this.errorCB);
         db.transaction((tx) => {
-            console.log("Yogesh", tx)
-            tx.executeSql('SELECT * FROM tblCategory', [], (tx, results) => {
+            tx.executeSql('SELECT cat_name FROM tblCategory', [], (tx, results) => {
                 console.log("Query completed", results);
-
-                // Get rows with Web SQL Database spec compliance.
-
                 var len = results.rows.length;
+                let row = [];
                 for (let i = 0; i < len; i++) {
-                    let row = results.rows.item(i);
-                    console.log(`Record: ${row.name}`);
-                    this.setState({record: row});
-                }
-            });
-        });
+                    row.push(results.rows.item(i))
+                    console.log(`Record: ${row.cat_name}`);
+                    }
+                this.setState({records: row});
 
-    }
+            },(error)=>{
+                    alert("error:"+JSON.stringify(error))
+                });
+            });
+        }
 
     errorCB(err) {
         console.log("SQL Error: " + err);
     }
 
     successCB() {
+        alert("Sucess")
         console.log("SQL executed fine");
     }
 
     openCB() {
         console.log("Database OPENED");
-    }
-
-
-   /* async componentWillMount() {
-        service.createTable("aloha", [{
-            name: 'id',
-            dataType: 'integer',
-            isNotNull: true,
-            options: 'PRIMARY KEY AUTOINCREMENT'
-        }, {
-            name: 'name',
-            dataType: 'text'
-        }, {
-            name: 'gender',
-            dataType: 'text'
-        }])
-        service.insert("aloha", {
-            name: 'Selim',
-            gender: 'male'
-        })
-        var result = await service.select("aloha")
-        this.setState({
-            records: result
-        })
-    }*/
-
-
-
-    formatData(data) {
-        // We're sorting by alphabetically so we need the alphabet
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
-        // Need somewhere to store our www
-        const dataBlob = {};
-        const sectionIds = [];
-        const rowIds = [];
-
-        // Each section is going to represent a letter in the alphabet so we loop over the alphabet
-        for (let sectionId = 0; sectionId < alphabet.length; sectionId++) {
-            // Get the character we're currently looking for
-            const currentChar = alphabet[sectionId];
-
-            // Get users whose first name starts with the current letter
-            const users = data.filter((user) => user.name.first.toUpperCase().indexOf(currentChar) === 0);
-
-            // If there are any users who have a first name starting with the current letter then we'll
-            // add a new section otherwise we just skip over it
-            if (users.length > 0) {
-                // Add a section id to our array so the listview knows that we've got a new section
-                sectionIds.push(sectionId);
-
-                // Store any www we would want to display in the section header. In our case we want to show
-                // the current character
-                dataBlob[sectionId] = { character: currentChar };
-
-                // Setup a new array that we can store the row ids for this section
-                rowIds.push([]);
-
-                // Loop over the valid users for this section
-                for (let i = 0; i < users.length; i++) {
-                    // Create a unique row id for the www blob that the listview can use for reference
-                    const rowId = `${sectionId}:${i}`;
-
-                    // Push the row id to the row ids array. This is what listview will reference to pull
-                    // www from our www blob
-                    rowIds[rowIds.length - 1].push(rowId);
-
-                    // Store the www we care about for this row
-                    dataBlob[rowId] = users[i];
-                }
-            }
-        }
-
-        return { dataBlob, sectionIds, rowIds };
+        return true
     }
 
     static navigationOptions = {
@@ -149,22 +61,25 @@ export default class CategoryScreen extends Component {
     };
 
     render() {
-       return(
+        console.log("Print props", this.state.records)
+
+        return(
            <View style={styles.container}>
-               <ListView
+        {/*       <ListView
                    style={styles.container}
-                   dataSource={this.state.dataSource}
-                   renderRow={(data) => <Row {...data} />}
-                   renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+                   dataSource={this.state.records}
+                   renderRow={(data) => <Row {...data} subscreen={() => this.props.navigation.navigate('SubCat')}/>}
+                   renderSeparator={(rowId) => <View key={rowId} style={styles.separator} />}
                    renderHeader={() => <Header />}
                    renderFooter={() => <Footer />}
                    renderSectionHeader={(sectionData) => <SectionHeader {...sectionData} />}
-               />
-{/*               <FlatList
-                   www={this.state.records}
-                   renderItem={({ item }) => <Text>{item.name}</Text>}
-                   keyExtractor={(item) => item.id}
                />*/}
+               <FlatList
+                   style={styles.container}
+                   data={this.state.records}
+                   renderItem={({ item }) => <Row cat_name={item.cat_name} subscreen={() => this.props.navigation.navigate('SubCat')}/>}
+                   keyExtractor={item => item.cat_name}
+               />
            </View>
        )
     }
