@@ -10,22 +10,26 @@ import { List, ListItem } from "react-native-elements";
 let SQLite = require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB_New.sqlite"},this.openCB, this.errorCB);
 
-export default class SubCategoryScreen extends Component {
+export default class DiseaseShortDescScreen extends Component {
     static navigationOptions = {
-        title: 'Sub Categories'
+        title: 'Disease Short Description  '
     };
     constructor(props){
         super(props)
+
         this.state = {
             subCatRecord: []
         }
-        this.fetchSubCategoryData(this.props.navigation.state.params.catID)
-        this.subcategoryHandler = this.subcategoryHandler.bind(this);
+
+        this.fetchSubCategoryData(this.props.navigation.state.params.DiseaseID)
+        this.diseaseDescHandler = this.diseaseDescHandler.bind(this);
+
+
     }
 
-    fetchSubCategoryData(catID){
+    fetchSubCategoryData(DiseaseID){
         db.transaction((tx) => {
-            tx.executeSql('SELECT * FROM tblSubCategory WHERE categoryID=?', [catID], (tx, results) => {
+            tx.executeSql('SELECT * FROM tableDescription WHERE DescID=?', [DiseaseID], (tx, results) => {
                 var len = results.rows.length;
                 let row = [];
                 for (let i = 0; i < len; i++) {
@@ -39,8 +43,8 @@ export default class SubCategoryScreen extends Component {
         });
     }
 
-    subcategoryHandler(subcatID){
-        this.props.navigation.navigate('DiseaseCat', {subcatID})
+    diseaseDescHandler(code){
+        this.props.navigation.navigate('DiseaseDesc', {code})
 
     }
     render(){
@@ -50,15 +54,17 @@ export default class SubCategoryScreen extends Component {
                     style={styles.container}
                     data={this.state.subCatRecord}
                     renderItem={({item}) =>
-
-                        <ListItem
-                            roundAvatar
-                            onPress={() => this.subcategoryHandler(item.SubCatID)}
-                            title={item.SubCatName}
-                            key={item.SubCatID}
-                        />
+                        <View>
+                            <ListItem
+                                roundAvatar
+                                onPress={() => this.diseaseDescHandler(item.code)}
+                                title={item.shortDesc}
+                                subTitle={item.code}
+                                key={item.code}
+                            />
+                        </View>
                     }
-                    keyExtractor={item => item.SubCatName}
+                    keyExtractor={item => item.code}
                 />
             </View>
         )

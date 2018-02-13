@@ -62,6 +62,7 @@ export default class CategoryScreen extends Component {
     };
 
     categoryHandler(catID){
+        console.log("catID", catID)
         this.props.navigation.navigate('SubCat', {catID})
     }
 
