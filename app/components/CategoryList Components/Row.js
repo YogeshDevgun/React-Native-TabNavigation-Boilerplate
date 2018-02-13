@@ -31,8 +31,10 @@ const Row = (props) => (
 
         <ListItem
             roundAvatar
-            onPress={props.subscreen}
-            title={props.cat_name} />
+            onPress={() => props.subscreen(props.item._id)}
+            title={props.item.cat_name}
+            key ={props.item._id}
+        />
 )
 
     export default Row;

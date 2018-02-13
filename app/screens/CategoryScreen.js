@@ -26,13 +26,11 @@ export default class CategoryScreen extends Component {
         }
 
         db.transaction((tx) => {
-            tx.executeSql('SELECT cat_name FROM tblCategory', [], (tx, results) => {
-                console.log("Query completed", results);
+            tx.executeSql('SELECT * FROM tblCategory', [], (tx, results) => {
                 var len = results.rows.length;
                 let row = [];
                 for (let i = 0; i < len; i++) {
                     row.push(results.rows.item(i))
-                    console.log(`Record: ${row.cat_name}`);
                     }
                 this.setState({records: row});
 
@@ -40,7 +38,10 @@ export default class CategoryScreen extends Component {
                     alert("error:"+JSON.stringify(error))
                 });
             });
-        }
+
+        this.categoryHandler = this.categoryHandler.bind(this);
+
+    }
 
     errorCB(err) {
         console.log("SQL Error: " + err);
@@ -60,9 +61,11 @@ export default class CategoryScreen extends Component {
         title: 'CATEGORY',
     };
 
-    render() {
-        console.log("Print props", this.state.records)
+    categoryHandler(catID){
+        this.props.navigation.navigate('SubCat', {catID})
+    }
 
+    render() {
         return(
            <View style={styles.container}>
         {/*       <ListView
@@ -77,7 +80,7 @@ export default class CategoryScreen extends Component {
                <FlatList
                    style={styles.container}
                    data={this.state.records}
-                   renderItem={({ item }) => <Row cat_name={item.cat_name} subscreen={() => this.props.navigation.navigate('SubCat')}/>}
+                   renderItem={({ item }) => <Row item={item} subscreen={(catID) => this.categoryHandler(catID)}/>}
                    keyExtractor={item => item.cat_name}
                />
            </View>
