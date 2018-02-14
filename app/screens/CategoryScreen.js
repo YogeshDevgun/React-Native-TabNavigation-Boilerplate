@@ -14,7 +14,7 @@ import Footer from "../components/CategoryList Components/Footer";
 import SectionHeader from "../components/CategoryList Components/SectionHeader";
 
 let SQLite = require('react-native-sqlite-storage')
-var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB_New.sqlite"},this.openCB, this.errorCB);
+var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB.sqlite"},this.openCB, this.errorCB);
 
 export default class CategoryScreen extends Component {
     constructor(props) {
@@ -62,7 +62,6 @@ export default class CategoryScreen extends Component {
     };
 
     categoryHandler(catID){
-        console.log("catID", catID)
         this.props.navigation.navigate('SubCat', {catID})
     }
 

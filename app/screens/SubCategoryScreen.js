@@ -8,7 +8,7 @@ import { List, ListItem } from "react-native-elements";
 
 //Import Row in this for suubcate, sub sub cate, sub sub sub categ and left will be dis descp
 let SQLite = require('react-native-sqlite-storage')
-var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB_New.sqlite"},this.openCB, this.errorCB);
+var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB.sqlite"},this.openCB, this.errorCB);
 
 export default class SubCategoryScreen extends Component {
     static navigationOptions = {

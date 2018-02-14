@@ -4,34 +4,61 @@ import {StyleSheet,
     Text,
     Button,
     FlatList} from 'react-native';
-import { List, ListItem } from "react-native-elements";
-
-//Import Row in this for suubcate, sub sub cate, sub sub sub categ and left will be dis descp
 let SQLite = require('react-native-sqlite-storage')
-var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB_New.sqlite"},this.openCB, this.errorCB);
+var db = SQLite.openDatabase({name : "tests.db", createFromLocation : "~IDB_DB.sqlite"},this.openCB, this.errorCB);
 
+let self;
 export default class DiseaseDescScreen extends Component {
-    static navigationOptions = {
-        title: 'Disease Long Description  '
-    };
+
     constructor(props){
         super(props)
 
         this.state = {
-            subCatRecord: ''
+            subCatRecord: []
         }
-        console.log("Disease details DiseaseID", this.props.navigation.state.params.code)
-
         this.fetchSubCategoryData(this.props.navigation.state.params.code)
+
+        this.bookmarkHandler =  this.bookmarkHandler.bind(this)
+    }
+
+
+    static navigationOptions = {
+        title: 'Disease Long Description',
+        headerRight: (
+            <Button
+                onPress={() => self.bookmarkHandler()}
+                title="Info"
+                color="gray"
+            />
+        ),
+    };
+
+    bookmarkHandler(){
+        alert('This is a button!')
+        this.addToBookmark(this.props.navigation.state.params.code)
+    }
+
+
+    addToBookmark(code){
+        db.transaction((tx) => {
+            tx.executeSql('INSERT INTO Bookmark (code) values (?)', [code], (tx, results) => {
+                console.log("Inserting data", results)
+            },(error)=>{
+                alert("error:"+JSON.stringify(error))
+            });
+        });
     }
 
     fetchSubCategoryData(code){
         db.transaction((tx) => {
             tx.executeSql('SELECT * FROM tableDescription WHERE code=?', [code], (tx, results) => {
-    console.log(results.rows,"results.rows.item[0]", results.rows.item)
-                               this.setState({subCatRecord: results.rows.item[0].longDesc});
-
-            },(error)=>{
+                var len = results.rows.length;
+                let row = [];
+                for (let i = 0; i < len; i++) {
+                    row.push(results.rows.item(i))
+                }
+                this.setState({subCatRecord: row});
+                },(error)=>{
                 alert("error:"+JSON.stringify(error))
             });
         });
@@ -39,9 +66,19 @@ export default class DiseaseDescScreen extends Component {
 
 
     render(){
+        self = this;
+        let DiseaseDescription = this.state.subCatRecord.map(
+            (item) => {
+                return (
+
+                    <Text key={item.code}> {item.longDesc}</Text>
+
+                )
+            }
+        )
         return(
             <View style={styles.container}>
-                {this.state.longDesc}
+                {DiseaseDescription}
             </View>
         )
     }

@@ -8,7 +8,7 @@ import { List, ListItem } from "react-native-elements";
 
 //Import Row in this for suubcate, sub sub cate, sub sub sub categ and left will be dis descp
 let SQLite = require('react-native-sqlite-storage')
-var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB_New.sqlite"},this.openCB, this.errorCB);
+var db = SQLite.openDatabase({name : "test.db", createFromLocation : "~IDB_DB.sqlite"},this.openCB, this.errorCB);
 
 export default class DiseaseShortDescScreen extends Component {
     static navigationOptions = {
@@ -18,29 +18,44 @@ export default class DiseaseShortDescScreen extends Component {
         super(props)
 
         this.state = {
+            DiseaseID: this.props.DiseaseID || this.props.navigation.state.params.DiseaseID ,
             subCatRecord: []
         }
 
-        this.fetchSubCategoryData(this.props.navigation.state.params.DiseaseID)
+        this.fetchSubCategoryData(this.props.DiseaseID || this.props.navigation.state.params.DiseaseID)
         this.diseaseDescHandler = this.diseaseDescHandler.bind(this);
-
-
     }
 
     fetchSubCategoryData(DiseaseID){
-        db.transaction((tx) => {
-            tx.executeSql('SELECT * FROM tableDescription WHERE DescID=?', [DiseaseID], (tx, results) => {
-                var len = results.rows.length;
-                let row = [];
-                for (let i = 0; i < len; i++) {
-                    row.push(results.rows.item(i))
-                }
-                this.setState({subCatRecord: row});
+       if(this.props.DiseaseID){
+           db.transaction((tx) => {
+               tx.executeSql('SELECT * FROM tableDescription WHERE code=?', [DiseaseID], (tx, results) => {
+                   var len = results.rows.length;
+                   let row = [];
+                   for (let i = 0; i < len; i++) {
+                       row.push(results.rows.item(i))
+                   }
+                   this.setState({subCatRecord: row});
 
-            },(error)=>{
-                alert("error:"+JSON.stringify(error))
-            });
-        });
+               },(error)=>{
+                   alert("error:"+JSON.stringify(error))
+               });
+           });
+       } else{
+           db.transaction((tx) => {
+               tx.executeSql('SELECT * FROM tableDescription WHERE DescID=?', [DiseaseID], (tx, results) => {
+                   var len = results.rows.length;
+                   let row = [];
+                   for (let i = 0; i < len; i++) {
+                       row.push(results.rows.item(i))
+                   }
+                   this.setState({subCatRecord: row});
+
+               },(error)=>{
+                   alert("error:"+JSON.stringify(error))
+               });
+           });
+       }
     }
 
     diseaseDescHandler(code){
@@ -48,6 +63,7 @@ export default class DiseaseShortDescScreen extends Component {
 
     }
     render(){
+        console.log("RECORD", this.state.subCatRecord)
         return(
             <View style={styles.container}>
                 <FlatList
@@ -56,12 +72,11 @@ export default class DiseaseShortDescScreen extends Component {
                     renderItem={({item}) =>
                         <View>
                             <ListItem
-                                roundAvatar
                                 onPress={() => this.diseaseDescHandler(item.code)}
                                 title={item.shortDesc}
-                                subTitle={item.code}
                                 key={item.code}
                             />
+
                         </View>
                     }
                     keyExtractor={item => item.code}

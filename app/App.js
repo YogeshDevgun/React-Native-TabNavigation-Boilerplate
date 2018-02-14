@@ -13,11 +13,14 @@ import SubCategoryScreen from "./screens/SubCategoryScreen";
 import DiseaseCategoryScreen from "./screens/DiseaseCategoryScreen";
 import DiseaseShortDescScreen from "./screens/DiseaseShortDescScreen";
 import DiseaseDescScreen from "./screens/DiseaseDescScreen";
+import ContactUsScreen from "./screens/ContactUsScreen";
 
 
 const BookmarkStack = StackNavigator({
     Bookmark: { screen: BookmarkScreen },
-},
+        DiseaseDesc: {screen: DiseaseDescScreen}
+
+    },
     {
         navigationOptions: {
             headerStyle: {
@@ -51,7 +54,8 @@ const SearchStack = StackNavigator({
 
 const MoreStack = StackNavigator({
     More: {screen: MoreScreen},
-},
+    ContatctUs: {screen: ContactUsScreen}
+    },
     {
         navigationOptions: {
             headerStyle: {

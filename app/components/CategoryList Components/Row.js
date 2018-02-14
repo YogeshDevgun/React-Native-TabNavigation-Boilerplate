@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity  } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { List, ListItem } from "react-native-elements";
-
+import { Avatar, ListItem } from "react-native-elements";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -27,15 +26,24 @@ const styles = StyleSheet.create({
     },
 });
 
-const Row = (props) => (
+const Row = (props) => {
+    let imagName = `/../../../public/images/+${props.item.ImageName}+.png`
+    return(
 
-        <ListItem
-            roundAvatar
-            onPress={() => props.subscreen(props.item._id)}
+
+    <ListItem
+        roundAvatar
+        avatar={<Avatar
+            rounded
+            source={imagName}
             title={props.item.cat_name}
-            key ={props.item._id}
-        />
+        />}
+        onPress={() => props.subscreen(props.item._id)}
+        key={props.item._id}
+        title={props.item.cat_name}
+    />
 )
+}
 
     export default Row;
 {/*  <TouchableOpacity  style={styles.container} onPress={props.subscreen}>

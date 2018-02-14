@@ -34,6 +34,7 @@ export default class MoreScreen extends Component {
                     title='CONTACT US'
                     buttonStyle={styles.btn}
                     textStyle={styles.btnText}
+                    onPress={() => this.props.navigation.navigate('ContatctUs')}
                 />
             </View>
         )
@@ -46,7 +47,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#1AA1CE',
         justifyContent: 'center'
-
     },
     btn: {
         borderRadius: 4,
