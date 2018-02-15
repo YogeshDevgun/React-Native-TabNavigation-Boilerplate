@@ -15,7 +15,7 @@ export default class BookmarkScreen extends Component {
             code: []
         }
         this.fetchSubCategoryData()
-
+        this.diseaseDescHandle = this.diseaseDescHandle.bind(this)
     }
 
     componentWillMount(){
@@ -45,11 +45,14 @@ export default class BookmarkScreen extends Component {
             });
         });
     }
-
+    diseaseDescHandle(code){
+        console.log("CAME", code)
+        this.props.navigation.navigate('DiseaseDesc', {code, bookmark: true, button: 'Delete'})
+    }
     render(){
         let BookmarkOptions
         if(this.state.code.length > 0){
-            return <DiseaseShortDescScreen DiseaseID={this.state.code[0].code}/>
+            return <DiseaseShortDescScreen bookmark={true} diseaseDescHandle={(code) => this.diseaseDescHandle(code)} DiseaseID={this.state.code[0].code}/>
         } else {
             return (
                 <Text>Nothing Bookmarked</Text>

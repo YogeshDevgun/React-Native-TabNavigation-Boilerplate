@@ -22,16 +22,28 @@ export default class DiseaseDescScreen extends Component {
     }
 
 
-    static navigationOptions = {
-        title: 'Disease Long Description',
-        headerRight: (
-            <Button
+    static navigationOptions = ({navigation}) => {
+        const { state } = navigation
+        const { button } = "params" in state && state.params
+
+
+        return{
+            title: 'Disease Long Description',
+            headerRight: <Button
                 onPress={() => self.bookmarkHandler()}
-                title="Info"
+                title={this.props.navigation.state.params.button}
                 color="gray"
             />
-        ),
     };
+
+    componentWillMount() {
+
+        const signOutButton = (
+            
+
+        this.props.navigation.setParams({ signOutButton: () => signOutButton })
+    }
+}
 
     bookmarkHandler(){
         alert('This is a button!')

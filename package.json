@@ -13,6 +13,7 @@
     "react-native-sqlite-storage": "^3.3.4",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0",
+    "react-vector-icons": "0.0.1",
     "websqlite": "^1.0.7"
   },
   "devDependencies": {

@@ -59,8 +59,12 @@ export default class DiseaseShortDescScreen extends Component {
     }
 
     diseaseDescHandler(code){
-        this.props.navigation.navigate('DiseaseDesc', {code})
-
+        console.log("Sending", code)
+        if(this.props.bookmark){
+            this.props.diseaseDescHandle(code)
+        } else {
+            this.props.navigation.navigate('DiseaseDesc', {code, bookmark: false, button: 'info'})
+        }
     }
     render(){
         console.log("RECORD", this.state.subCatRecord)
